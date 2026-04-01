@@ -1,0 +1,1121 @@
+/* =========================================================
+   GLOBAL
+========================================================= */
+:root {
+  --sidebar-width: 0px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #0f0f0f;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+}
+
+.hidden {
+  display: none !important;
+}
+
+body.home #sidebar {
+  display: none;
+}
+
+body.home #main-area {
+  overflow: hidden;
+}
+
+#sidebar,
+#player-footer {
+  transition: all 0.25s ease;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: #444;
+}
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+#sidebar {
+  width: var(--sidebar-width);
+  background: #111;
+  border-right: 1px solid #222;
+  overflow-y: auto;
+  padding: 10px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+#sidebar.collapsed {
+  width: 70px;
+}
+
+.sidebar-thumb {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  object-fit: contain;
+  background: #000;
+  padding: 4px;
+  margin: 0 auto 16px;
+  display: block;
+}
+
+#sidebar.expanded {
+  width: 320px;
+  padding: 20px;
+}
+
+.sidebar-item {
+  margin-bottom: 20px;
+}
+
+.sidebar-cover {
+  width: 100%;
+  height: 140px;
+  border-radius: 10px;
+  object-fit: contain;
+  background: #000;
+  padding: 8px;
+}
+
+.sidebar-pagination {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.sidebar-pagination button {
+  background: #222;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  color: #ccc;
+  cursor: pointer;
+}
+
+.sidebar-pagination button.active {
+  background: #ff3d00;
+  color: #fff;
+}
+
+/* =========================================================
+   MAIN AREA
+========================================================= */
+
+#main-area {
+  flex: 1;
+  overflow-y: auto;
+  position: relative;
+}
+
+/* =========================================================
+   HOME CAROUSEL
+========================================================= */
+
+#home-carousel {
+  width: 100%;
+  height: 100vh;
+  padding: 40px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  scroll-snap-type: x mandatory;
+}
+
+.carousel-item {
+  flex: 0 0 auto;
+  scroll-snap-align: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.carousel-item:hover {
+  transform: scale(1.08);
+}
+
+.carousel-cover {
+  width: 260px;
+  height: 260px;
+  border-radius: 16px;
+  object-fit: contain;
+  box-shadow: 0 0 20px rgba(255,255,255,0.15);
+}
+
+#main-pagination {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  z-index: 999;
+}
+
+#main-pagination button {
+  background: #222;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  color: #ccc;
+  cursor: pointer;
+}
+
+#main-pagination button.active {
+  background: #ff3d00;
+  color: #fff;
+}
+
+/* =========================================================
+   ALBUM PAGE
+========================================================= */
+
+#virtual-page {
+  padding: 20px 20px 110px;
+  box-sizing: border-box;
+}
+
+.album-layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 420px) minmax(0, 1fr);
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.album-media {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #000;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 0 24px rgba(0,0,0,0.6);
+  position: relative;
+}
+
+.album-media img,
+.album-media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* =========================================================
+   VIDEO
+========================================================= */
+
+.album-media video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
+  border: none;
+  outline: none;
+  display: block;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+.album-media video::-webkit-media-controls-play-button,
+.album-media video::-webkit-media-controls-timeline,
+.album-media video::-webkit-media-controls-volume-slider,
+.album-media video::-webkit-media-controls-mute-button,
+.album-media video::-webkit-media-controls-current-time-display,
+.album-media video::-webkit-media-controls-time-remaining-display,
+.album-media video::-webkit-media-controls-download-button,
+.album-media video::-webkit-media-controls-overflow-button {
+  display: none !important;
+}
+
+/* =========================================================
+   PANEL
+========================================================= */
+
+.album-panel {
+  background: #181818;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.tabs {
+  display: flex;
+  background: #202020;
+  border-bottom: 1px solid #333;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 14px 0;
+  text-align: center;
+  background: transparent;
+  border: none;
+  color: #ccc;
+  cursor: pointer;
+}
+
+.tab-btn.active {
+  color: #fff;
+  border-bottom: 3px solid #ff3d00;
+}
+
+.tab-container {
+  max-height: calc(100vh - 220px);
+  overflow-y: auto;
+}
+
+.tab-content {
+  padding: 16px;
+  overflow-x: hidden;   /* ✅ hides horizontal scrollbar */
+  overflow-y: auto;     /* keep vertical scrolling */
+}
+
+
+/* =========================================================
+   TRACK / RELATED / ALBUM ITEMS
+========================================================= */
+
+.track-item,
+.related-item,
+.album-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  position: relative;
+}
+
+.track-item:hover,
+.related-item:hover,
+.album-item:hover {
+  background: #262626;
+}
+
+.track-item.playing,
+.related-item.playing {
+  background: #2a2a2a;
+}
+
+/* STROKED EQ ICON */
+.track-item.playing::after,
+.related-item.playing::after {
+  content: "";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background-image: url("data:image/svg+xml;utf8,\
+  <svg viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>\
+    <line x1='4' y1='14' x2='4' y2='6' stroke='white' stroke-width='2' stroke-linecap='round'/>\
+    <line x1='10' y1='16' x2='10' y2='4' stroke='white' stroke-width='2' stroke-linecap='round'/>\
+    <line x1='16' y1='12' x2='16' y2='8' stroke='white' stroke-width='2' stroke-linecap='round'/>\
+  </svg>");
+  background-size: 20px;
+  background-repeat: no-repeat;
+}
+
+.track-item img,
+.related-item img,
+.album-item img {
+  width: 52px;
+  height: 52px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+/* =========================================================
+   LYRICS
+========================================================= */
+
+#lyrics-sidebar {
+  background: #111;
+  border-radius: 8px;
+  padding: 16px;
+  white-space: pre-wrap;
+  line-height: 1.6;
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #222;
+}
+
+/* =========================================================
+   FOOTER PLAYER
+========================================================= */
+
+#player-footer {
+  position: fixed;
+  bottom: 0;
+  left: var(--sidebar-width);
+  right: 0;
+  height: 90px;
+  background: #111;
+  border-top: 1px solid #222;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 0 28px;
+  z-index: 1000;
+}
+
+.player-left,
+.player-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* =========================================================
+   ICON BUTTONS (STROKED SVG ICONS)
+========================================================= */
+
+.player-left button,
+.player-right button {
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s ease;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 26px;
+}
+
+.player-left button:hover,
+.player-right button:hover {
+  transform: scale(1.15);
+  filter: brightness(1.4);
+}
+
+/* PREVIOUS */
+#prev-btn {
+  background-image: url("data:image/svg+xml;utf8,\
+  <svg viewBox='0 0 26 26' xmlns='http://www.w3.org/2000/svg'>\
+    <polygon points='19,6 10,13 19,20' fill='none' stroke='white' stroke-width='2' stroke-linejoin='round'/>\
+    <line x1='8' y1='6' x2='8' y2='20' stroke='white' stroke-width='2' stroke-linecap='round'/>\
+  </svg>");
+}
+
+/* PLAY / PAUSE */
+#play-pause:not(.playing) {
+  background-image: url("data:image/svg+xml;utf8,\
+  <svg viewBox='0 0 26 26' xmlns='http://www.w3.org/2000/svg'>\
+    <polygon points='9,6 20,13 9,20' fill='none' stroke='white' stroke-width='2' stroke-linejoin='round'/>\
+  </svg>");
+}
+
+#play-pause.playing {
+  background-image: url("data:image/svg+xml;utf8,\
+  <svg viewBox='0 0 26 26' xmlns='http://www.w3.org/2000/svg'>\
+    <rect x='8' y='6' width='4' height='14' rx='2' fill='none' stroke='white' stroke-width='2'/>\
+    <rect x='14' y='6' width='4' height='14' rx='2' fill='none' stroke='white' stroke-width='2'/>\
+  </svg>");
+}
+
+/* NEXT */
+#next-btn {
+  background-image: url("data:image/svg+xml;utf8,\
+  <svg viewBox='0 0 26 26' xmlns='http://www.w3.org/2000/svg'>\
+    <polygon points='7,6 16,13 7,20' fill='none' stroke='white' stroke-width='2' stroke-linejoin='round'/>\
+    <line x1='18' y1='6' x2='18' y2='20' stroke='white' stroke-width='2' stroke-linecap='round'/>\
+  </svg>");
+}
+
+/* SHUFFLE */
+#shuffle-btn {
+  background-image: url("data:image/svg+xml;utf8,\
+  <svg viewBox='0 0 26 26' xmlns='http://www.w3.org/2000/svg'>\
+    <path d='M6 6 H10 L20 20 H16' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'/>\
+    <path d='M20 6 H16 L6 20 H10' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'/>\
+    <polyline points='17,6 20,6 20,9' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'/>\
+    <polyline points='17,20 20,20 20,17' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'/>\
+  </svg>");
+}
+
+/* REPEAT */
+#repeat-btn {
+  background-image: url("data:image/svg+xml;utf8,\
+  <svg viewBox='0 0 26 26' xmlns='http://www.w3.org/2000/svg'>\
+    <polyline points='6,9 6,6 20,6 20,9' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'/>\
+    <polyline points='20,17 20,20 6,20 6,17' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'/>\
+    <polyline points='9,6 6,9 9,12' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'/>\
+    <polyline points='17,20 20,17 17,14' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'/>\
+  </svg>");
+}
+
+/* VOLUME */
+#volume-btn {
+  background-image: url("data:image/svg+xml;utf8,\
+  <svg viewBox='0 0 26 26' xmlns='http://www.w3.org/2000/svg'>\
+    <polygon points='6,10 10,10 14,6 14,20 10,16 6,16' fill='none' stroke='white' stroke-width='2' stroke-linejoin='round'/>\
+    <path d='M17 9 C19 11,19 15,17 17' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'/>\
+    <path d='M19 6 C23 10,23 16,19 20' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'/>\
+  </svg>");
+}
+
+/* =========================================================
+   FOOTER CENTER FIX (COMPACT COVER + TITLE)
+========================================================= */
+
+.player-center-info {
+  max-width: 240px;
+  min-width: 200px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  overflow: hidden;
+}
+
+#footer-thumb {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.footer-meta {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#footer-title,
+#footer-artist {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 180px;
+  line-height: 1.2;
+}
+
+#footer-title {
+  cursor: default;
+  color: #fff;
+  text-decoration: none;
+}
+
+#footer-title:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
+#footer-artist {
+  cursor: pointer;
+  opacity: 0.8;
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.15s ease, opacity 0.15s ease;
+}
+
+#footer-artist:hover {
+  opacity: 1;
+  color: #ff3d00;
+  text-decoration: underline;
+}
+
+/* =========================================================
+   TIME + PROGRESS FIX
+========================================================= */
+
+.time-display {
+  font-size: 14px;
+  color: #ccc;
+  margin-left: 10px;
+  min-width: 90px;
+  text-align: left;
+}
+
+.player-center {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+#progress-container {
+  width: 100%;
+  height: 4px;
+  background: #333;
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative;
+}
+
+#progress-bar {
+  height: 100%;
+  width: 0%;
+  background: #ff3d00;
+  border-radius: 2px;
+}
+
+/* Circle play/pause button */
+.circle-btn {
+  border-radius: 50%;
+  background-color: #222;
+  width: 48px;
+  height: 48px;
+}
+
+/* =========================================================
+   VOLUME SLIDER
+========================================================= */
+
+#volume-slider {
+  -webkit-appearance: none;
+  width: 120px;
+  height: 4px;
+  background: #333;
+  border-radius: 999px;
+  outline: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  position: relative;
+}
+
+#volume-slider:hover {
+  background: #444;
+}
+
+#volume-slider::-webkit-slider-runnable-track {
+  height: 4px;
+  background: linear-gradient(
+    to right,
+    #ff3d00 var(--vol-fill, 50%),
+    #333 var(--vol-fill, 50%)
+  );
+  border-radius: 999px;
+}
+
+#volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;      /* was 14px */
+  height: 12px;     /* was 14px */
+  background: #fff;
+  border-radius: 50%;
+  margin-top: -4px; /* adjusted for new size */
+  transition: transform 0.15s ease;
+}
+
+#volume-slider:hover::-webkit-slider-thumb {
+  transform: scale(1.25);   /* was 1.35 */
+}
+
+#volume-slider:active::-webkit-slider-thumb {
+  transform: scale(1.35);   /* was 1.45 */
+}
+/* =========================================================
+  HOVER CIRCLES (PLAY/PAUSE/NEXT/PREV/VOLUME/SHUFFLE/REPEAT)
+========================================================= */
+
+.player-left button:hover::before,
+.player-right button:hover::before,
+#volume-btn:hover::before,
+#shuffle-btn:hover::before,
+#repeat-btn:hover::before {
+  content: "";
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.player-left button:hover,
+.player-right button:hover,
+#volume-btn:hover,
+#shuffle-btn:hover,
+#repeat-btn:hover {
+  transform: scale(1.15);
+  filter: brightness(1.4);
+}
+
+/* =========================================================
+   TRACK PLAYING ICON → SWITCH TO PAUSE ON HOVER
+========================================================= */
+
+.track-item.playing::after,
+.related-item.playing::after {
+  content: "";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background-image: url("data:image/svg+xml;utf8,\
+  <svg viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>\
+    <line x1='4' y1='14' x2='4' y2='6' stroke='white' stroke-width='2' stroke-linecap='round'/>\
+    <line x1='10' y1='16' x2='10' y2='4' stroke='white' stroke-width='2' stroke-linecap='round'/>\
+    <line x1='16' y1='12' x2='16' y2='8' stroke='white' stroke-width='2' stroke-linecap='round'/>\
+  </svg>");
+  background-size: 20px;
+  background-repeat: no-repeat;
+}
+
+.track-item.playing:hover::after,
+.related-item.playing:hover::after {
+  background-image: url("data:image/svg+xml;utf8,\
+  <svg viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>\
+    <rect x='5' y='4' width='4' height='12' rx='2' fill='white'/>\
+    <rect x='11' y='4' width='4' height='12' rx='2' fill='white'/>\
+  </svg>");
+}
+
+/* =========================================================
+   SHUFFLE + REPEAT
+========================================================= */
+
+/* REPEAT — dot centered ONLY when active */
+#repeat-btn.active::after {
+  content: "";
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #ffffff; /* white dot */
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* SHUFFLE — dot in left opening ONLY when active */
+#shuffle-btn.active::after {
+  content: "";
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #ffffff; /* white dot */
+  border-radius: 50%;
+  top: 50%;
+  left: 32%; /* tuned for your icon */
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+#shuffle-btn,
+#repeat-btn {
+  position: relative;
+  transform-origin: center center;
+}
+
+#shuffle-btn::after,
+#repeat-btn::after {
+  transform-origin: center center;
+}
+
+/* Expanded sidebar covers behave like mobile carousel covers */
+#sidebar.expanded .sidebar-cover {
+  width: 220px;              /* larger for balance */
+  height: 220px;
+  display: block;
+  margin: 0 auto 24px;       /* center horizontally */
+  object-fit: contain;       /* match mobile style */
+  border-radius: 16px;
+  background: none !important; /* remove black edge */
+  padding: 0 !important;       /* remove inner padding */
+  box-shadow: 0 0 20px rgba(255,255,255,0.15); /* subtle glow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover pop‑out effect with stronger glow */
+#sidebar.expanded .sidebar-item:hover .sidebar-cover {
+  transform: scale(1.08);
+  box-shadow: 0 0 26px rgba(255,255,255,0.25);
+}
+
+/* Default: hide both */
+#album-video,
+#track-video {
+  display: none;
+  visibility: hidden;
+}
+
+/* Desktop: only album-video can be shown */
+@media (min-width: 768px) {
+  #track-video {
+    display: none !important;
+    visibility: hidden !important;
+  }
+}
+
+/* Mobile: only track-video can be shown */
+@media (max-width: 767px) {
+  #album-video {
+    display: none !important;
+    visibility: hidden !important;
+  }
+}
+
+@media (max-width: 767px) {
+  #track-video {
+    display: block;
+    visibility: visible;
+    width: 100%;   /* ensure it fills container */
+    height: auto;  /* keep aspect ratio */
+    background: black; /* avoid blank white box */
+  }
+}
+
+/* =========================================================
+   MOBILE LAYOUT — FINAL FIX (NO SIDEBAR ON HOME, NO LEFT GAP)
+========================================================= */
+@media (max-width: 768px) {
+
+  /* =========================================================
+     SIDEBAR — only visible in album mode
+  ========================================================== */
+  #sidebar {
+    display: none !important;
+  }
+
+  body:not(.home) #sidebar {
+    display: block !important;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 70px;
+    overflow-y: auto;
+    background: #111;
+    z-index: 2000;
+    transition: width 0.25s ease;
+  }
+
+  body:not(.home) #sidebar.expanded {
+    width: 100% !important;
+    padding: 20px !important;
+  }
+
+   /* Expanded sidebar covers behave like carousel covers */
+  #sidebar.expanded .sidebar-cover {
+    width: 220px;              /* larger for balance */
+    height: 220px;
+    display: block;
+    margin: 0 auto 24px;       /* center horizontally */
+    object-fit: contain;       /* match desktop carousel */
+    border-radius: 16px;
+    background: none !important; /* remove black edge */
+    padding: 0 !important;       /* remove inner padding */
+    box-shadow: 0 0 20px rgba(255,255,255,0.15); /* subtle glow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  #sidebar.expanded .sidebar-item:hover .sidebar-cover {
+    transform: scale(1.08);    /* pop‑out effect */
+    box-shadow: 0 0 26px rgba(255,255,255,0.25); /* stronger glow */
+  }
+
+  /* =========================================================
+     MAIN AREA
+  ========================================================== */
+  #main-area {
+    margin-left: 0 !important;
+    width: 100% !important;
+    padding: 0 !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box;
+  }
+
+  body:not(.home) #main-area {
+    overflow-y: auto;
+    padding-bottom: 140px !important;
+  }
+
+  body:not(.home) #sidebar:not(.expanded) ~ #main-area {
+    margin-left: 70px !important;
+    width: calc(100% - 70px) !important;
+  }
+
+  body:not(.home) #sidebar.expanded ~ #main-area {
+    display: none !important;
+  }
+
+  /* =========================================================
+     HOME PAGE
+  ========================================================== */
+  body.home {
+    overflow: hidden;
+  }
+
+  body.home #main-area {
+    height: 100vh;
+    overflow: hidden !important;
+  }
+
+  body.home #home-carousel {
+    padding: 20px !important;
+    width: 100% !important;
+    height: 100%;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    white-space: nowrap;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  body.home #home-carousel::-webkit-scrollbar {
+    display: none;
+  }
+
+  body.home #main-pagination {
+    position: absolute;
+    bottom: 20px;
+  }
+
+  /* =========================================================
+     ALBUM PAGE
+  ========================================================== */
+  .album-media {
+    display: none !important;
+  }
+
+  .album-layout {
+    display: block !important;
+    width: 100%;
+  }
+
+  .album-panel {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border-radius: 12px;
+    background: #181818;
+    align-items: stretch !important;
+  }
+
+  /* Tabs fixed at top */
+ .tabs {
+    position: fixed;
+    top: 0;
+    left: 70px; /* leave space for collapsed sidebar */
+    right: 0;
+    width: calc(100% - 70px); /* adjust width */
+    background: #202020;
+    border-bottom: 1px solid #333;
+    display: flex;
+    justify-content: space-around;
+    z-index: 3000;
+  }
+
+  .tab-btn {
+    flex: 1;
+    padding: 12px 0;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  #virtual-page {
+    position: relative;
+    width: 100% !important;
+    height: 100vh;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #181818;
+    box-sizing: border-box;
+  }
+
+  .tab-container {
+    margin-top: 48px; /* equal to tab height */
+    height: calc(100vh - 48px - 140px);
+    overflow-y: auto;
+    background: #181818;
+    box-sizing: border-box;
+  }
+
+  .tab-content {
+    width: 100%;
+    padding: 12px;
+    box-sizing: border-box;
+  }
+
+  .track-item,
+  .related-item {
+    width: 100%;
+    justify-content: flex-start !important;
+  }
+
+  #lyrics-sidebar {
+    width: 100%;
+    padding: 20px 12px;
+    text-align: left;
+  }
+
+  .lyrics-not-found {
+    width: 100%;
+    padding: 20px 12px;
+    text-align: left;
+    color: #bbb;
+  }
+
+  /* =========================================================
+     FOOTER
+  ========================================================== */
+
+  /* Footer — compact but complete */
+  #player-footer {
+    height: auto !important;          /* auto height so all elements fit */
+    padding: 8px 12px !important;     /* reduced padding */
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 8px !important;              /* tighter spacing */
+  }
+
+  .player-center-info {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 8px !important;
+    order: 1 !important;              /* cover + title/artist first */
+  }
+
+  #footer-thumb {
+    width: 46px !important;           /* slightly smaller cover */
+    height: 46px !important;
+    flex-shrink: 0;
+  }
+
+  #footer-title,
+  #footer-artist {
+    text-align: center !important;
+    max-width: 180px !important;
+    font-size: 12px !important;       /* smaller text */
+    line-height: 1.2;
+  }
+
+  .player-left,
+  .player-right {
+    display: flex !important;
+    gap: 12px !important;
+    order: 2 !important;              /* playback controls */
+  }
+
+  .player-center {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    gap: 14px !important;
+    order: 2 !important;
+  }
+
+  .time-display {
+    width: 100% !important;
+    text-align: center !important;
+    font-size: 12px !important;
+    color: #ccc !important;
+    margin-top: 4px !important;
+    order: 3 !important;              /* time below controls */
+  }
+
+  #progress-container {
+    width: 100% !important;
+    order: 4 !important;              /* progress bar below time */
+    margin-top: 2px !important;
+  }
+
+  #volume-slider {
+    width: 100% !important;
+    max-width: 220px !important;
+    order: 5 !important;              /* volume slider last */
+  }
+}
+
+* {
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+@media (max-width: 768px) {
+  .track-item.playing,
+  .related-item.playing {
+    width: auto !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .track-item.playing:hover::after,
+  .related-item.playing:hover::after {
+    /* Force EQ icon on mobile */
+    background-image: url("data:image/svg+xml;utf8,\
+    <svg viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>\
+      <line x1='4' y1='14' x2='4' y2='6' stroke='white' stroke-width='2' stroke-linecap='round'/>\
+      <line x1='10' y1='16' x2='10' y2='4' stroke='white' stroke-width='2' stroke-linecap='round'/>\
+      <line x1='16' y1='12' x2='16' y2='8' stroke='white' stroke-width='2' stroke-linecap='round'/>\
+    </svg>");
+  }
+}
+
+  /* Remove pseudo-element icons */
+  .track-item.playing::before,
+  .related-item.playing::before {
+    content: none !important;
+  }
+
+  /* Remove play/pause icons inside track rows */
+  .track-item .play-pause,
+  .related-item .play-pause {
+    display: none !important;
+  }
+
+  /* Remove volume icons inside track rows */
+  .track-item .volume-btn,
+  .related-item .volume-btn {
+    display: none !important;
+  }
+
+  /* Hover effect same as desktop */
+  .track-item.playing:hover,
+  .related-item.playing:hover {
+    background-color: #333 !important;
+  }
+}
+
+/* Hide mobile video player on desktop */
+  #track-video {
+    display: none !important;
+    visibility: hidden !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .tab-content {
+    overflow-x: hidden;  
+    overflow-y: auto;  
+  }
+
+  .tab-content img,
+  .tab-content span {
+    max-width: 100%;    
+    white-space: normal;
+    word-break: break-word;
+  }
